@@ -5,7 +5,7 @@ from scipy.optimize import curve_fit
 from matplotlib import rcParams
 from matplotlib import pyplot as plt
 
-from utils import open_external
+from .utils import open_external
 
 
 def __process_table_header(header):
