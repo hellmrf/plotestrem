@@ -9,6 +9,7 @@ For now, the equation is only generated for linear and exponential fitting, whic
 
 This code is quite old, so it's not well-written, but it works.
 
+![Example](docs/example.png)
 ## Usage
 
 You'll need Python 3 installed and a LaTeX distribution. Also, you'll need to install the requirements, which are:
