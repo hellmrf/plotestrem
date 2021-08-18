@@ -1,4 +1,5 @@
 import os
+from typing import Union, Callable
 import numpy as np
 from scipy.optimize import curve_fit
 from matplotlib import rcParams
@@ -6,12 +7,29 @@ from matplotlib import pyplot as plt
 
 from utils import open_external
 
-def plotestrem(x, y, fit="linear", xlabel="", ylabel="", LaTeX_preamble="", decimal_places=5, scientific_notation=False, path=None, open_after_completed=False):
-    # ------- #
-    # Fitting #
-    # ------- #
 
-    # Function to be fitted
+def __process_table_header(header):
+    if type(header) == str:
+        # Try to detect the separator
+        parts = header.split('&')
+        if len(parts) == 3:
+            return header
+
+        parts = header.split(',')
+        if len(parts) == 3:
+            return " & ".join(parts)
+    elif type(header) == list:
+        return " & ".join(header)
+    # Fallback
+    return "Param & Value & Error"
+
+
+def __process_fit_type(fit_type: Union[str, Callable]):
+    """Get a fit type and return the processed thing 
+
+    Args:
+        fit_type (Any): "linear", "exp" or a function to be fitted.
+    """
     def lin_func(x, a, b):
         return a * x + b
 
@@ -19,15 +37,33 @@ def plotestrem(x, y, fit="linear", xlabel="", ylabel="", LaTeX_preamble="", deci
         return a * np.exp(-b * x) + c
 
     if fit_type == "linear":
-        func = lin_func
+        return lin_func
     elif fit_type == "exp":
-        func = exp_func
+        return exp_func
     elif callable(fit_type):
-        func = fit_type
+        return fit_type
     else:
         raise Exception(
             "fit_type should be \"linear\", \"exp\", or a function.")
 
+
+def plotestrem(x,
+               y,
+               fit: Union[str, Callable] = "linear",
+               xlabel: str = "",
+               ylabel: str = "",
+               LaTeX_preamble: str = "",
+               decimal_places: int = 5,
+               scientific_notation: bool = False,
+               path: str = None,
+               open_after_completed: bool = False,
+               table_header: Union[str, list, None] = None):
+    table_header = __process_table_header(table_header)
+
+    # ------- #
+    # Fitting #
+    # ------- #
+    func = __process_fit_type(fit_type)
     # Fit and get uncertainty
     fit, __cov = curve_fit(func, x, y)
     uncert = np.sqrt(__cov.diagonal())
@@ -62,13 +98,15 @@ def plotestrem(x, y, fit="linear", xlabel="", ylabel="", LaTeX_preamble="", deci
         par = [fit[0], uncert[0], fit[1],
                uncert[1]]
         if scientific_notation == True:
-            p = ["\\num{" + "{:.{}e}".format(x, decimal_places) + "}" for x in par]
+            p = [
+                "\\num{" + "{:.{}e}".format(x, decimal_places) + "}" for x in par]
         else:
-            p = ["\\num{" + "{:.{}f}".format(x, decimal_places) + "}" for x in par]
+            p = [
+                "\\num{" + "{:.{}f}".format(x, decimal_places) + "}" for x in par]
         p.append("\\num{" + "{:.4f}".format(r_squared) + "}")
         p = list(map(lambda x: x if x != r"\num{inf}" else r"$\infty$", p))
         params_overlay = ""
-        param_table = r'\begin{tabular}{ccc}$ y = ax + b $ & & \\ && \\ \hline Param & Valor & Erro \\ \hline $ a $ & ' + \
+        param_table = r'\begin{tabular}{ccc}$ y = ax + b $ & & \\ && \\ \hline ' + table_header + r' \\ \hline $ a $ & ' + \
             p[0] + r' & ' + p[1] + r' \\ $ b $ & ' + p[2] + r' & ' + p[3] + \
             r' \\ $R^2$ & ' + p[4] + r' & \\ \hline \end{tabular}'
         if fit[0] > 0.0:  # choose if table will be on the left or on the right
@@ -88,7 +126,7 @@ def plotestrem(x, y, fit="linear", xlabel="", ylabel="", LaTeX_preamble="", deci
         p.append("\\num{" + "{:.4f}".format(r_squared) + "}")
         p = list(map(lambda x: x if x != r"\num{inf}" else r"$\infty$", p))
         params_overlay = ""
-        param_table = r'\begin{tabular}{ccc} \multicolumn{3}{l}{$ y = a \cdot e^{-bx} + c $} \\ && \\ \hline Param & Valor & Erro \\ \hline $ a $ & ' + \
+        param_table = r'\begin{tabular}{ccc} \multicolumn{3}{l}{$ y = a \cdot e^{-bx} + c $} \\ && \\ \hline ' + table_header + r' \\ \hline $ a $ & ' + \
             p[0] + r' & ' + p[1] + r' \\ $ b $ & ' + p[2] + r' & ' + p[3] + \
             r'\\ $ c $ & ' + p[4] + r' & ' + p[5] +\
             r' \\ $R^2$ & ' + p[6] + r' & \\ \hline \end{tabular}'
@@ -98,9 +136,9 @@ def plotestrem(x, y, fit="linear", xlabel="", ylabel="", LaTeX_preamble="", deci
         plt.text(min(x), max(y), param_table,
                  va="top", ha="left", multialignment="left")
 
-    if os.path.isdir(path):
+    if os.path.isdir(str(path)):
         path = os.path.join(path, "graph.pdf")
-    if os.path.isdir(os.path.dirname(path)):
+    if os.path.isdir(os.path.dirname(str(path))):
         path = path
     else:
         path = "graph.pdf"
@@ -114,8 +152,9 @@ def plotestrem(x, y, fit="linear", xlabel="", ylabel="", LaTeX_preamble="", deci
 
 
 if __name__ == '__main__':
+    from random import random
     x = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
-    y = np.array([2 * xi + (random() - 0.5) for xi in x]) # y = 2x + noise
+    y = np.array([2 * xi + (random() - 0.5) for xi in x])  # y = 2x + noise
 
     fit_type = "linear"  # "linear", "exp", or a lambda function to be fitted
 
@@ -132,4 +171,5 @@ if __name__ == '__main__':
     path = "~/Documents/graph.pdf"
     open_after_completed = True
     plotestrem(x, y, fit=fit_type, xlabel=xlabel, ylabel=ylabel, LaTeX_preamble=LaTeX_preamble, decimal_places=decimal_places,
-               scientific_notation=scientific_notation, path=path, open_after_completed=open_after_completed)
+               scientific_notation=scientific_notation, path=path, open_after_completed=open_after_completed,
+               table_header=None)
