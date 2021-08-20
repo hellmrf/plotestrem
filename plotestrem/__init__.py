@@ -63,7 +63,7 @@ def plotestrem(x,
     # ------- #
     # Fitting #
     # ------- #
-    func = __process_fit_type(fit_type)
+    func = __process_fit_type(fit)
     # Fit and get uncertainty
     fit, __cov = curve_fit(func, x, y)
     uncert = np.sqrt(__cov.diagonal())
