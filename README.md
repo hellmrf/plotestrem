@@ -3,9 +3,9 @@
 ![Python 3](https://img.shields.io/badge/python-3-blue?style=for-the-badge)
 ![GPLv3.0](https://img.shields.io/github/license/hellmrf/plotestrem?style=for-the-badge)
 
-Small Python script for rapidly fitting data in the context of experimental science. With Plotestrem, you can easily fit (almost) any function and get a beautiful and scalable graph. The axis are completely LaTeX-friendly, so you can use any packages you want. It also means you can use the same font as your main document.
+Small Python script for rapidly fitting data in the context of experimental sciences. With Plotestrem, you can easily fit (almost) any function and get a beautiful and scalable graphic. The axes are completely LaTeX-friendly, so you can use any packages you want. It also means you can use the same font as your main document.
 
-For now, the equation is only generated for linear and exponential fitting, which should be sufficient for many application. Maybe in the future I'll add more support.
+For now, the equation is only generated for linear and exponential fitting, which should be sufficient for many applications. Maybe in the future I'll add more support.
 
 This code is quite old, so it's not well-written, but it works.
 
