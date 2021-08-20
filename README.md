@@ -23,7 +23,7 @@ Yeah, it have no interface. Maybe one day. Who knows.
 
 ## Why _Plotestrem_?
 
-It's how a *mineiro* (native of Minas Gerais -- Brasil) would say "Plot this thing". [Here](https://translate.google.com/?source=osdd&sl=pt&text=plota+esse+trem) you can listen a canonical speech, but it's not correct (as it's not *mineiro*).
+It's how a *mineiro* (native of Minas Gerais -- Brasil) would say "Plot this thing". [Here](https://translate.google.com/?source=osdd&sl=pt&text=plota+esse+trem) you can listen a canonical speech, but it's not correct (as it's not *mineiro*). [This one](https://translate.google.com/?source=osdd&sl=pt&text=plótêss+trem) is a little better.
 
 ## Author
 
