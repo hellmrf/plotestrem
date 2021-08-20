@@ -12,13 +12,12 @@ This code is quite old, so it's not well-written, but it works.
 ![Example](docs/example.png)
 ## Usage
 
-You'll need Python 3 installed and a LaTeX distribution. After cloning the repo, install the package using (don't type `$` at your terminal):
+You'll need Python 3 installed and a LaTeX distribution. Then install the package:
 ```shell
-$ git clone git@github.com:hellmrf/plotestrem.git
-$ pip -e $(pwd)/plotestrem
+pip install git+https://github.com/hellmrf/plotestrem.git
 ```
 
-Once you have everything set up, open `runner.py`, add your data and run.
+Once you have everything set up, open [`runner.py`](./runner.py), add your data and run.
 
 Yeah, it have no interface. Maybe one day. Who knows.
 
