@@ -12,13 +12,13 @@ This code is quite old, so it's not well-written, but it works.
 ![Example](docs/example.png)
 ## Usage
 
-You'll need Python 3 installed and a LaTeX distribution. Also, you'll need to install the requirements, which are:
+You'll need Python 3 installed and a LaTeX distribution. After cloning the repo, install the package using (don't type `$` at your terminal):
+```shell
+$ git clone git@github.com:hellmrf/plotestrem.git
+$ pip -e $(pwd)/plotestrem
+```
 
--   [`numpy`](https://pypi.org/project/numpy/)
--   [`scipy`](https://pypi.org/project/scipy/)
--   [`matplotlib`](https://pypi.org/project/matplotlib/)
-
-Once you have everything set up, open the script, add your data and run.
+Once you have everything set up, open `runner.py`, add your data and run.
 
 Yeah, it have no interface. Maybe one day. Who knows.
 

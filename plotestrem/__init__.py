@@ -49,7 +49,7 @@ def __process_fit_type(fit_type: Union[str, Callable]):
 
 def plotestrem(x,
                y,
-               fit: Union[str, Callable] = "linear",
+               fit_type: Union[str, Callable] = "linear",
                xlabel: str = "",
                ylabel: str = "",
                LaTeX_preamble: str = "",
@@ -149,27 +149,3 @@ def plotestrem(x,
     if open_after_completed:
         # os.system(f"xdg-open \"{path}\"")
         open_external(path)
-
-
-if __name__ == '__main__':
-    from random import random
-    x = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
-    y = np.array([2 * xi + (random() - 0.5) for xi in x])  # y = 2x + noise
-
-    fit_type = "linear"  # "linear", "exp", or a lambda function to be fitted
-
-    # Define the labels for the plot. LaTeX input is allowed.
-    xlabel = r'$ \ln\left(C_f / \si{\gram\per\liter}\right) $'
-    ylabel = r"$ \ln x $"
-
-    LaTeX_preamble = r"\usepackage{amsmath}\usepackage{stix}\usepackage[version=4]{mhchem}\usepackage{siunitx}"
-
-    decimal_places = 3  # Default:5
-    scientific_notation = False
-
-    # Set the path to save the figure.
-    path = "~/Documents/graph.pdf"
-    open_after_completed = True
-    plotestrem(x, y, fit=fit_type, xlabel=xlabel, ylabel=ylabel, LaTeX_preamble=LaTeX_preamble, decimal_places=decimal_places,
-               scientific_notation=scientific_notation, path=path, open_after_completed=open_after_completed,
-               table_header=None)
