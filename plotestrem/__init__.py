@@ -48,6 +48,12 @@ def __process_fit_type(fit_type: Union[str, Callable]):
         raise Exception(
             "fit_type should be \"linear\", \"exp\", or a function.")
 
+def R2(x: Union[list, np.ndarray], y: Union[list, np.ndarray], f: Callable, *fit) -> float:
+    residuals = y - f(x, *fit)
+    ss_res = np.sum(residuals**2)
+    ss_tot = np.sum((y - np.mean(y))**2)
+    r_squared = 1.0 - (ss_res / ss_tot)
+    return r_squared
 
 def plotestrem(x,
                y,
@@ -63,8 +69,8 @@ def plotestrem(x,
     table_header = __process_table_header(table_header)
 
     rcParams['mathtext.fontset'] = 'cm'
-    # rcParams["font.family"] = "serif"
-    rcParams['font.family'] = 'STIXGeneral'
+    rcParams["font.family"] = "serif"
+    # rcParams['font.family'] = 'STIXGeneral'
     #rcParams['font.family'] = 'fourier'
     rcParams["savefig.format"] = 'pdf'
     rcParams["text.usetex"] = True
@@ -80,11 +86,7 @@ def plotestrem(x,
         fit, __cov = curve_fit(func, x, y)
         uncert = np.sqrt(__cov.diagonal())
 
-        # Compute R²
-        residuals = y - func(x, *fit)
-        ss_res = np.sum(residuals**2)
-        ss_tot = np.sum((y - np.mean(y))**2)
-        r_squared = 1 - (ss_res / ss_tot)
+        r_squared = R2(x, y, func, *fit)
 
         # print(fit, __cov, uncert, r_squared)
 
