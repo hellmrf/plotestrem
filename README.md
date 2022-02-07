@@ -28,7 +28,7 @@ You can fit the data using three builtin fitters, or provide your own function. 
 - `"linear"`: linear fit, will plot a line and show the parameters for the `y = a * x + b` equation;
 - `"exp"`: exponential fit, will plot the exponential function and show the parameters for the `y = a * exp(-b * x) + c` equation;
 - `"none"`: no fitting. It just skips the regression. Your data will be plotted as a scatter plot;
-- Lastly, you can provide a function (a lambda or just the name of an existing function, without the parenthesis) to be used in the fitting. For now, the program shows only the R² value (not the parameters) for user-defined functions, but this is an interesting feature to have in the future.
+- Lastly, you can provide a function (a lambda or just the name of an existing function, without the parenthesis) to be used in the fitting. For now, the program shows only the R² value (not the parameters) for user-defined functions, but this is an interesting feature to have in the future. Also, the function to be passed should be in the form `f(x, *fit)`, with `fit` being the coefficients. For example, a linear function would be passed as a `f(x, a, b)`.
 
 ## Why _Plotestrem_?
 
