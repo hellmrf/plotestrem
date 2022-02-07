@@ -42,6 +42,8 @@ def __process_fit_type(fit_type: Union[str, Callable]):
         return exp_func
     elif callable(fit_type):
         return fit_type
+    elif fit_type == "none":
+        return lambda x: None
     else:
         raise Exception(
             "fit_type should be \"linear\", \"exp\", or a function.")
@@ -60,25 +62,6 @@ def plotestrem(x,
                table_header: Union[str, list, None] = None):
     table_header = __process_table_header(table_header)
 
-    # ------- #
-    # Fitting #
-    # ------- #
-    func = __process_fit_type(fit_type)
-    # Fit and get uncertainty
-    fit, __cov = curve_fit(func, x, y)
-    uncert = np.sqrt(__cov.diagonal())
-
-    # Compute R²
-    residuals = y - func(x, *fit)
-    ss_res = np.sum(residuals**2)
-    ss_tot = np.sum((y - np.mean(y))**2)
-    r_squared = 1 - (ss_res / ss_tot)
-
-    # print(fit, __cov, uncert, r_squared)
-    # -------- #
-    # Plotting #
-    # -------- #
-
     rcParams['mathtext.fontset'] = 'cm'
     # rcParams["font.family"] = "serif"
     rcParams['font.family'] = 'STIXGeneral'
@@ -87,9 +70,31 @@ def plotestrem(x,
     rcParams["text.usetex"] = True
     rcParams["text.latex.preamble"] = r'\usepackage{siunitx}' + LaTeX_preamble
 
-    x_pred = np.linspace(min(x), max(x), 100)
 
-    plt.plot(x_pred, func(x_pred, *fit), color="black", linewidth=0.7)
+    if str(fit_type).lower() != "none":
+        # ------- #
+        # Fitting #
+        # ------- #
+        func = __process_fit_type(fit_type)
+        # Fit and get uncertainty
+        fit, __cov = curve_fit(func, x, y)
+        uncert = np.sqrt(__cov.diagonal())
+
+        # Compute R²
+        residuals = y - func(x, *fit)
+        ss_res = np.sum(residuals**2)
+        ss_tot = np.sum((y - np.mean(y))**2)
+        r_squared = 1 - (ss_res / ss_tot)
+
+        # print(fit, __cov, uncert, r_squared)
+
+        x_pred = np.linspace(min(x), max(x), 100)
+
+    # -------- #
+    # Plotting #
+    # -------- #
+    if str(fit_type).lower() != "none":
+        plt.plot(x_pred, func(x_pred, *fit), color="black", linewidth=0.7)
     plt.plot(x.ravel(), y, 'o', color="navy")
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
