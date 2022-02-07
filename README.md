@@ -14,7 +14,7 @@ This code is quite old, so it's not well-written, but it works.
 
 You'll need Python 3 installed and a LaTeX distribution. Then install the package:
 ```shell
-pip install git+https://github.com/hellmrf/plotestrem.git
+pip3 install plotestrem
 ```
 
 Once you have everything set up, open [`runner.py`](./runner.py), add your data and run.

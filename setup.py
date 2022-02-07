@@ -8,6 +8,7 @@ setuptools.setup(
     version="0.0.1",
     author="Heliton Martins Reis Filho",
     author_email="helitonmrf@gmail.com",
+    license="GPL-v3.0",
     description="A simple Python script to plot and fit data (similar to Origin or SciDavis), but free, open source and LaTeX-friendly.",
     long_description=long_description,
     long_description_content_type="text/markdown",
