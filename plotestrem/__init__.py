@@ -8,7 +8,7 @@ from matplotlib import pyplot as plt
 from .utils import open_external
 
 
-def __process_table_header(header):
+def __process_table_header(header) -> str:
     if type(header) == str:
         # Try to detect the separator
         parts = header.split('&')
@@ -24,7 +24,7 @@ def __process_table_header(header):
     return "Param & Value & Error"
 
 
-def __process_fit_type(fit_type: Union[str, Callable]):
+def __process_fit_type(fit_type: Union[str, Callable]) -> Callable:
     """Get a fit type and return the processed thing 
 
     Args:
@@ -137,11 +137,16 @@ def plotestrem(x,
             p[0] + r' & ' + p[1] + r' \\ $ b $ & ' + p[2] + r' & ' + p[3] + \
             r'\\ $ c $ & ' + p[4] + r' & ' + p[5] +\
             r' \\ $R^2$ & ' + p[6] + r' & \\ \hline \end{tabular}'
-
         # plt.text(min(x)-0.03, max(y), param_table,
         #          va="top", ha="left", multialignment="left")
         plt.text(min(x), max(y), param_table,
                  va="top", ha="left", multialignment="left")
+
+    elif str(fit_type).lower() != "none":
+        r2 = "\\num{" + "{:.4f}".format(r_squared) + "}"
+        param_table = r'\begin{tabular}{ccc} \hline ' + table_header + r' \\ \hline' + \
+            r'$R^2$ & ' + r2 + r' & \\ \hline \end{tabular}'
+        plt.text(min(x), max(y), param_table, va="top", ha="left", multialignment="left")
 
     if os.path.isdir(str(path)):
         path = os.path.join(path, "graph.pdf")
