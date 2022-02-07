@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="plotestrem",
-    version="0.0.1",
+    version="0.0.2",
     author="Heliton Martins Reis Filho",
     author_email="helitonmrf@gmail.com",
     license="GPL-v3.0",
