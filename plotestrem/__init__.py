@@ -65,14 +65,19 @@ def plotestrem(x,
                scientific_notation: bool = False,
                path: str = None,
                open_after_completed: bool = False,
-               table_header: Union[str, list, None] = None):
+               table_header: Union[str, list, None] = None,
+               file_format="pdf", 
+               decimal_marker="."):
     table_header = __process_table_header(table_header)
+
+    if decimal_marker != ".":
+        LaTeX_preamble += "\sisetup{output-decimal-marker={" + decimal_marker + "}}"
 
     rcParams['mathtext.fontset'] = 'cm'
     rcParams["font.family"] = "serif"
     # rcParams['font.family'] = 'STIXGeneral'
     #rcParams['font.family'] = 'fourier'
-    rcParams["savefig.format"] = 'pdf'
+    rcParams["savefig.format"] = file_format
     rcParams["text.usetex"] = True
     rcParams["text.latex.preamble"] = r'\usepackage{siunitx}' + LaTeX_preamble
 
@@ -156,7 +161,7 @@ def plotestrem(x,
         path = "graph.pdf"
 
     # path = path if os.path.isdir(os.path.dirname(path)) else "graph.pdf"
-    plt.savefig(path, format="pdf", bbox_inches='tight')
+    plt.savefig(path, format=file_format, bbox_inches='tight')
 
     if open_after_completed:
         # os.system(f"xdg-open \"{path}\"")

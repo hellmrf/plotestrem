@@ -9,7 +9,7 @@ y = np.array([2 * xi + (random() - 0.5) for xi in x])  # y = 2x + noise
 fit_type = "linear"  # "linear", "exp", "none" or a lambda function to be fitted
 
 # Define the labels for the plot. LaTeX input is allowed.
-xlabel = r'$ \ln\left(C_f / \si{\gram\per\liter}\right) $'
+xlabel = r'$ C_f / \si{\gram\per\liter} $'
 ylabel = r"$ \ln x $"
 
 LaTeX_preamble = r"\usepackage{amsmath}\usepackage{stix}\usepackage[version=4]{mhchem}\usepackage{siunitx}"
@@ -23,5 +23,5 @@ path = "/tmp/a.pdf"
 
 open_after_completed = True
 plotestrem(x, y, fit_type=fit_type, xlabel=xlabel, ylabel=ylabel, LaTeX_preamble=LaTeX_preamble, decimal_places=decimal_places,
-            scientific_notation=scientific_notation, path=path, open_after_completed=open_after_completed,
-            table_header=None)
+           scientific_notation=scientific_notation, path=path, open_after_completed=open_after_completed, decimal_marker=".",
+           file_format="pdf", table_header=None)
